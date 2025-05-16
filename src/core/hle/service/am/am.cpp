@@ -1,3 +1,5 @@
+//FILE MODIFIED BY AzaharPlus MAY 2025
+
 // Copyright 2015 Citra Emulator Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
@@ -31,6 +33,7 @@
 #include "core/hle/service/fs/archive.h"
 #include "core/hle/service/fs/fs_user.h"
 #include "core/loader/loader.h"
+#include "core/loader/ncch.h"
 #include "core/loader/smdh.h"
 #include "core/nus_download.h"
 
@@ -197,6 +200,11 @@ Result CIAFile::WriteTitleMetadata() {
     }
 
     if (container.GetTitleMetadata().HasEncryptedContent()) {
+        if(Loader::getProgramId() == "0004000003070C00")
+        {//if running ctgp, disable installation of encrypted cia files to evade countermeasures
+            return {ErrorDescription::NotAuthorized, ErrorModule::AM, ErrorSummary::InvalidState,
+                ErrorLevel::Permanent};
+        }
         if (auto title_key = container.GetTicket().GetTitleKey()) {
             decryption_state->content.resize(content_count);
             for (std::size_t i = 0; i < content_count; ++i) {

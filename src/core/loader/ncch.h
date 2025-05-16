@@ -1,3 +1,5 @@
+//FILE MODIFIED BY AzaharPlus MAY 2025
+
 // Copyright 2014 Citra Emulator Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
@@ -11,6 +13,8 @@
 #include "core/loader/loader.h"
 
 namespace Loader {
+
+std::string getProgramId();
 
 /// Loads an NCCH file (e.g. from a CCI, or the first NCCH in a CXI)
 class AppLoader_NCCH final : public AppLoader {

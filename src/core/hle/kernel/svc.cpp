@@ -1,3 +1,5 @@
+//FILE MODIFIED BY AzaharPlus MAY 2025
+
 // Copyright 2014 Citra Emulator Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
@@ -1443,6 +1445,7 @@ Result SVC::KernelSetState(u32 kernel_state, u32 varg1, u32 varg2) {
     // Citra specific states.
     case KernelState::KERNEL_STATE_CITRA_EMULATION_SPEED: {
         u16 new_value = static_cast<u16>(varg1);
+        if(new_value == 65535) new_value = 100;//used at the end of loading
         Settings::values.frame_limit.SetValue(new_value);
     } break;
     default:
@@ -1813,7 +1816,7 @@ Result SVC::GetSystemInfo(s64* out, u32 type, s32 param) {
     case SystemInfoType::CITRA_INFORMATION:
         switch ((SystemInfoCitraInformation)param) {
         case SystemInfoCitraInformation::IS_CITRA:
-            *out = 1;
+            *out = 2;//identify as azahar to fool ctgp
             break;
         case SystemInfoCitraInformation::HOST_TICK:
             *out = static_cast<s64>(std::chrono::duration_cast<std::chrono::nanoseconds>(
